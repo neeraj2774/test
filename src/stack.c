@@ -138,6 +138,7 @@ void delstack() {
 		printf("\nWhole stack is deleted");
 
 	}
+
 }
 
 
