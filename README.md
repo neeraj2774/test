@@ -1,96 +1,95 @@
-# Button Gateway application
+# Tempearture Gateway application
 
 ## Overview
-Button gateway application runs on Ci40 which acts as a gateway for MikroE boards. One of the MikroE boards acts as a client which holds button resource, and another one also acts as a client which holds led resource. Gateway application observes button resource value, and whenever there is a change in its value, gateway application gets a notification for the change, and take further actions. After receiving notification for button change, gateway application
+temperature gateway application runs on Ci40 which acts as a gateway For MikroE board.MikroE board acts as a client which holds temperature resource. it continously observes the constrained device And upon recieving the data,it timestamps the information including  Constrained deviceID,temperature data,measurement unit And sends it to FlowCloud Datastore. Simultaneously it also publishes to device topic(measurement_changed) about This information, which gets notified by user.Gateway allows only one week's worth of data to be stored in datastore, And it purges the data that is older than one week.During operation gateway checks once per hour For data that has past the seven day rule.
+On bootup it checks the device settings And looks For a datastore name to use And delta value to provide the constrained application with. By Default it takes them as templogger And one respectively And adds them to device settings If they are Not  specified.
+It also waits For notication from subscribed device topic (device_setting_changed) about the change in device settings.If it gets notified , then it uses the New specified datastore And delta value. 
 
-- Updates the led resource value, which was created by led client, to on or off, depending upon button events.
-- Sets the led status of same resource created by itself, so that the observer gets the notification on the change of its value.
-- Sends a flow message to FlowM2M user's account with ON or OFF status of led.
 
 Gateway application serves two purposes:
 - It acts as Awalwm2m server to communicate with Awalwm2m client that is running on a constrained device.
 - It acts as Awalwm2m client to communicate with Awalwm2m server on FlowM2M
 
-| Object Name     | Object ID      | Resource Name | Resource ID |
-| :----           | :--------------| :-------------| :-----------|
-| "Digital Input" | 3200           | "Counter"      | 5501        |
-| "Actuation"     | 3311           | "On/Off"       | 5850        |
+| Object Name               | Object ID      | Resource Name | Resource ID |
+| :----                     | :--------------| :-------------| :-----------|
+| "TemperatureSensorDevice" | 3200           | "Counter"      | 5501        |
+| "TemperatureSensorDevice" | 3311           | "On/Off"       | 5850        |
 
-## Revision History
-| Revision  | Changes from previous revision |
-| :----     | :------------------------------|
-| 0.9.0     | External Beta Trial Release    |
 
 ## Prerequisites
 Prior to running button gateway application, make sure that:
 - Awalwm2m client daemon(awa_clientd) is running.
 - Awalwm2m server daemon(awa_serverd) is running.
 - Awalwm2m bootstrap daemon(awa_bootstrapd) is running.
-- Device provisioning is done.
-
+- Gateway Device provisioning is done.
+- Constrained Device provisioning is done.
 **NOTE:** Please do "ps" on console to see "specific" process is running or not.
 
 ## Running Application on Ci40 board
-Button Application is getting started as a daemon. Although we could also start it from the command line as :
+Temperature gateway Application is getting started as a daemon. Although we could also start it from the command line as :
 
-*$ button_gateway*
+$ temperature_gateway_appd
 
 Output looks something similar to this :
-```
-Button Gateway Application
+
+Temperature Gateway Application
 
 ------------------------
 
 
-Client session established
+client session established
 
 
-Server session established
+server session established
 
 
-Wait until device is provisioned
+Wait until Gateway device is provisioned
 
-Waiting...
 
 Gateway is provisioned.
 
 
-Waiting for config data
-
-Waiting for config data
-
-Failed to read config file
-
-Try to connect to Flow Server for 5 more trials..
+Wait until Constarained device is provisioned
 
 
-Device registration successful
+Constrained device is provisioned
+
+
+Device registered successfully
+
 
 Defining flow objects on server
 
 Defining flow objects on client
 
-Waiting for constrained device 'ButtonDevice' to be up
+Waiting for constrained device 'TemperatureSensorDevice' to be up
 
-Constrained device ButtonDevice registered
-
-Waiting for constrained device 'LedDevice' to be up
-
-Constrained device LedDevice registered
-
-Written 1 to server.
+Constrained device TemperatureSensorDevice registered
 
 
-Set 1 on client.
+The dataStoreName is : null
+
+Adding a new device setting gateway_measurements_datastore...
 
 
-Message sent to user = 12:36:10 18-03-2016 LED on
+Delta value is : null
 
-Written 0 to server.
+Delta value written to /3300/0/5900 
+
+Adding a new device setting delta_resource...
 
 
-Set 0 on client.
+Subscribe Successful
 
 
-Message sent to user = 12:36:11 18-03-2016 LED off
+<Measurement>
+<deviceId type="String">2D 97 3F 30 1C A0 A0 40 86 FD 0E 3B DD D6 4E 3B </deviceId>
+<timestamp type="DateTime">2016-04-13T06:24:39Z</timestamp>
+<value type="Double">26.250000</value>
+<unit type="String">C</unit>
+</Measurement>
+
+Data Store created and added successfully
+
+Published successfully
 ```
