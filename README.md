@@ -1,8 +1,8 @@
-# Tempearture Gateway application
+# Temperature Gateway application
 
 ## Overview
-Temperature gateway application runs on Ci40 which acts as a gateway For MikroE board.MikroE board acts as a client which holds temperature resource. it continously observes the constrained device And upon recieving the data,it timestamps the information including  Constrained deviceID,temperature data,measurement unit And sends it to FlowCloud Datastore. Simultaneously it also publishes to device topic(measurement_changed) about This information, which gets notified by user.Gateway allows only one week's worth of data to be stored in datastore, And it purges the data that is older than one week.During operation gateway checks once per hour For data that has past the seven day rule.
-On bootup it checks the device settings And looks For a datastore name to use And delta value to provide the constrained application with. By Default it takes them as templogger And one respectively And adds them to device settings If they are Not  specified.
+Temperature gateway application runs on Ci40 which acts as a gateway For MikroE board.MikroE board acts as a client which holds temperature resource. gateway continously observes the constrained device and upon recieving the data, it timestamps the information including  Constrained deviceID, temperature data, measurement unit and send it to FlowCloud Datastore. Simultaneously it also publishes to device topic(measurement_changed) about this information, which gets notified by user.Gateway allows only one week's worth of data to be stored in datastore, and it purges the data that is older than one week.During operation gateway checks once per hour For data that has past the seven day rule.
+On bootup it checks the device settings and looks For a datastore name to use and delta value to provide the constrained application with. By Default it takes them as templogger and one respectively and adds them to device settings If they are Not  specified.
 It also waits For notication from subscribed device topic (device_setting_changed) about the change in device settings.If it gets notified , then it uses the New specified datastore And delta value. 
 
 
@@ -12,8 +12,8 @@ Gateway application serves two purposes:
 
 | Object Name               | Object ID      | Resource Name | Resource ID |
 | :----                     | :--------------| :-------------| :-----------|
-| "TemperatureSensorDevice" | 3200           | "Counter"      | 5501        |
-| "TemperatureSensorDevice" | 3311           | "On/Off"       | 5850        |
+| "TemperatureSensorDevice" | 3303           | "SensorValue"      | 5501        |
+| "TemperatureSensorDevice" | 3303           | "DeltaValue"       | 5850        |
 
 
 ## Prerequisites
@@ -29,13 +29,13 @@ Prior to running button gateway application, make sure that:
 ## Running Application on Ci40 board
 Temperature gateway Application is getting started as a daemon. Although we could also start it from the command line as :
 
-$ temperature_gateway_appd
+$ temperature_gateway
 
 Output looks something similar to this :
 
 Temperature Gateway Application
 ```
---------------------------------
+---------------------------------
 ```
 
 client session established
