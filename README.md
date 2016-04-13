@@ -82,12 +82,12 @@ Adding a new device setting delta_resource...
 Subscribe Successful
 
 
-#<Measurement>
-#<deviceId type="String">2D 97 3F 30 1C A0 A0 40 86 FD 0E 3B DD D6 4E 3B </deviceId>
-#<timestamp type="DateTime">2016-04-13T06:24:39Z</timestamp>
-#<value type="Double">26.250000</value>
-#<unit type="String">C</unit>
-#</Measurement>
+<Measurement>
+<deviceId type="String">2D 97 3F 30 1C A0 A0 40 86 FD 0E 3B DD D6 4E 3B </deviceId>
+<timestamp type="DateTime">2016-04-13T06:24:39Z</timestamp>
+<value type="Double">26.250000</value>
+<unit type="String">C</unit>
+</Measurement>
 
 Data Store created and added successfully
 
